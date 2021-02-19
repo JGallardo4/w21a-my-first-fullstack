@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Database credentials
+dbcreds.py
+
+# Node
+node_modules
