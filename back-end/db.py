@@ -1,8 +1,10 @@
-from flask import jsonify
-import dbcreds
-from mariadb import connect
 import sys
 from datetime import date
+
+from flask import jsonify
+from mariadb import connect
+
+import dbcreds
 
 connection = None
 cursor = None
@@ -58,7 +60,7 @@ def getPosts():
 def getPost(_id):
     return get("SELECT * FROM Posts WHERE Id = (?)", [_id])  
 
-def createNewPost(user, content):
+def createPost(user, content):
     today = date.today().strftime("%Y/%m/%d")
     put("INSERT INTO Posts (User_Id, Content, Created_At) VALUES (?, ?, ?)", [user, content, today])
 
