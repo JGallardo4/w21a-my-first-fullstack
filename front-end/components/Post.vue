@@ -1,7 +1,7 @@
 <template>
   <article class="post">
     <button
-      v-if="userId == post.userId"
+      v-if="userId == post.User_Id"
       @click="deletePost()"
       id="delete-button"
     >
@@ -54,8 +54,7 @@ export default {
   methods: {
     deletePost() {
       this.$store.dispatch("deletePost", {
-        loginToken: this.loginToken,
-        postId: this.post.postId,
+        post_id: this.post.Id,
       });
 
       this.$store.dispatch("refreshPosts");
