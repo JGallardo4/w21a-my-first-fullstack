@@ -33,17 +33,16 @@ def get_posts():
             return make_response(jsonify({"message": "Request body must be JSON"}), 400)
 
     elif(request.method == "PATCH"):
-        _id = request.form["id"]
-        _common_name = request.form["common_name"]
-        _scientific_name = request.form["scientific_name"  ]     
+        if request.is_json:
+            _data = request.get_json()
+            _post_id = _data["post_id"]
+            _new_content = _data["new_content"]
 
-        db.update_animal(_id, _common_name, _scientific_name)
+            db.updatePost(_post_id, _new_content)
 
-        return Response(
-            "Animal updated",
-            mimetype = "text/plain",
-            status = 200
-        )
+            return make_response(jsonify({"message": "Success"}), 200)
+        else:
+            return make_response(jsonify({"message": "Request body must be JSON"}), 400)
 
     elif(request.method == "DELETE"):
         _id = request.form["id"]

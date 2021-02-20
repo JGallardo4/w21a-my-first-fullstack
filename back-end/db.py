@@ -64,6 +64,10 @@ def createPost(user, content):
     today = date.today().strftime("%Y/%m/%d")
     put("INSERT INTO Posts (User_Id, Content, Created_At) VALUES (?, ?, ?)", [user, content, today])
 
+def updatePost(post_id, new_content):
+    today = date.today().strftime("%Y/%m/%d")
+    put("UPDATE Posts SET Content = (?), Created_At = (?) WHERE Id = (?)", [new_content, today, post_id])
+
 def login(username, password):
     return get("SELECT * FROM Users WHERE Username = ? and Password_String = ?", [username, password])
 
