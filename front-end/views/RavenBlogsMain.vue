@@ -12,7 +12,7 @@ import TweeterHeader from "../components/TweeterHeader.vue";
 import MainDisplay from "../components/MainDisplay.vue";
 
 export default {
-  name: "Tweeter-main",
+  name: "RavenBlogsMain",
 
   components: {
     TweeterHeader,

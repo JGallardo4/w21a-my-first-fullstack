@@ -1,5 +1,5 @@
 import sys
-from datetime import date
+from datetime import datetime
 
 from flask import jsonify
 from mariadb import connect
@@ -61,11 +61,12 @@ def getPost(_id):
     return get("SELECT * FROM Posts WHERE Id = (?)", [_id])  
 
 def createPost(user, content):
-    today = date.today().strftime("%Y/%m/%d")
+    today = datetime.today().strftime("%Y/%m/%d %H:%M:%S")
     put("INSERT INTO Posts (User_Id, Content, Created_At) VALUES (?, ?, ?)", [user, content, today])
 
 def updatePost(post_id, new_content):
-    today = date.today().strftime("%Y/%m/%d")
+    today = datetime.today().strftime("%Y/%m/%d %H:%M:%S")
+    console.log(today)
     put("UPDATE Posts SET Content = (?), Created_At = (?) WHERE Id = (?)", [new_content, today, post_id])
 
 def deletePost(post_id):

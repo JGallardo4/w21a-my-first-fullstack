@@ -33,7 +33,7 @@ export default {
 
   data: function () {
     return {
-      currentTab: "My Stream",
+      currentTab: "My Posts",
       tabs: ["My Posts", "Discover", "New Post"],
     };
   },

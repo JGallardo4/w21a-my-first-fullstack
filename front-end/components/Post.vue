@@ -8,14 +8,14 @@
       <div id="delete-icon"><font-awesome-icon icon="times" /></div>
     </button>
 
-    <p id="post-content">{{ post.content }}</p>
+    <p id="post-content">{{ post.Content }}</p>
 
     <section id="post-info">
-      <form @submit.prevent="editPost()" v-if="userId == post.userId">
+      <form @submit.prevent="editPost()" v-if="userId == post.User_Id">
         <router-link
           :to="{
             name: 'Edit',
-            params: { postId: this.post.postId },
+            params: { postId: this.post.User_Id },
           }"
         >
           <button type="submit" id="edit-button" title="Edit this Post">
@@ -27,7 +27,7 @@
       </form>
 
       <p id="post-author">{{ post.username }}</p>
-      <p id="post-date">{{ post.createdAt }}</p>
+      <p id="post-date">{{ post.Created_At }}</p>
     </section>
   </article>
 </template>

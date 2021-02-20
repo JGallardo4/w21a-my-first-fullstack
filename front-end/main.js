@@ -38,7 +38,7 @@ Vue.component("font-awesome-icon", FontAwesomeIcon);
 axios.defaults.headers.common["X-Api-Key"] =
   "1Rj5dMCW6aOfA75kbtKt6Gcatc5M9Chc6IGwJKe4YdhDD";
 
-axios.defaults.baseURL = "https://Tweeterest.ml/api";
+axios.defaults.baseURL = "http://127.0.0.1:5000";
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;

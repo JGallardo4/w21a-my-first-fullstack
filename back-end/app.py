@@ -1,9 +1,13 @@
-from flask import Flask, request, Response, jsonify, make_response
 import json
+
 import mariadb
+from flask import Flask, Response, jsonify, make_response, request
+from flask_cors import CORS
+
 import db
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/posts", methods=["GET", "POST", "PATCH", "DELETE"])
 def get_posts(): 
