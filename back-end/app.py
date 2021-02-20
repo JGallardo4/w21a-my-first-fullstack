@@ -45,11 +45,12 @@ def get_posts():
             return make_response(jsonify({"message": "Request body must be JSON"}), 400)
 
     elif(request.method == "DELETE"):
-        _id = request.form["id"]
-        db.delete_animal(_id)
+        if request.is_json:
+            _data = request.get_json()
+            _post_id = _data["post_id"]
 
-        return Response(
-            "Animal deleted",
-            mimetype = "text/plain",
-            status = 200
-        )
+            db.deletePost(_post_id)
+
+            return make_response(jsonify({"message": "Success"}), 200)
+        else:
+            return make_response(jsonify({"message": "Request body must be JSON"}), 400)

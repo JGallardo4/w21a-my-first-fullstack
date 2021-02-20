@@ -68,6 +68,9 @@ def updatePost(post_id, new_content):
     today = date.today().strftime("%Y/%m/%d")
     put("UPDATE Posts SET Content = (?), Created_At = (?) WHERE Id = (?)", [new_content, today, post_id])
 
+def deletePost(post_id):
+    put("DELETE FROM Posts WHERE Id = (?)", [post_id])
+
 def login(username, password):
     return get("SELECT * FROM Users WHERE Username = ? and Password_String = ?", [username, password])
 
