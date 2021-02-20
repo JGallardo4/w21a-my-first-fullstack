@@ -51,7 +51,7 @@ const vuexLocal = new VuexPersistence({
 const store = new Vuex.Store({
   state: {
     isAuthenticated: false,
-    userId: "",
+    userId: 1,
     userName: "",
     loginToken: "",
     allPosts: [],
@@ -84,8 +84,8 @@ const store = new Vuex.Store({
       state.isAuthenticated = payload;
     },
 
-    SET_USERID(state, payload) {
-      state.userId = payload;
+    SET_USERID(state) {
+      state.userId = 1;
     },
 
     SET_LOGIN_TOKEN(state, payload) {
@@ -108,26 +108,30 @@ const store = new Vuex.Store({
   },
 
   actions: {
-    logIn({ commit, dispatch }, payload) {
-      return new Promise((resolve, reject) => {
-        axios
-          .post("/login", payload)
-          .then((response) => {
-            if (response.status === 201) {
-              commit("SET_AUTHENTICATED", true);
-              commit("SET_USERID", response.data.userId);
-              commit("SET_USERNAME", response.data.username);
-              commit("SET_LOGIN_TOKEN", response.data.loginToken);
-              dispatch("redirect", "/");
-              resolve(response);
-            } else {
-              reject(response);
-            }
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+    logIn({ commit }, payload) {
+      commit("SET_AUTHENTICATED", true);
+      commit("SET_USERID", 1);
+      commit("SET_USERNAME", "Juan");
+      console.log(payload);
+      // return new Promise((resolve, reject) => {
+      //   axios
+      //     .post("/login", payload)
+      //     .then((response) => {
+      //       if (response.status === 201) {
+      //         commit("SET_AUTHENTICATED", true);
+      //         commit("SET_USERID", response.data.userId);
+      //         commit("SET_USERNAME", response.data.username);
+      //         commit("SET_LOGIN_TOKEN", response.data.loginToken);
+      //         dispatch("redirect", "/");
+      //         resolve(response);
+      //       } else {
+      //         reject(response);
+      //       }
+      //     })
+      //     .catch((error) => {
+      //       reject(error);
+      //     });
+      // });
     },
 
     logOut({ commit, dispatch }) {
@@ -175,10 +179,10 @@ const store = new Vuex.Store({
       }
     },
 
-    postPost({ getters }, payload) {
+    createPost({ getters }, payload) {
       axios
         .post("/posts", {
-          loginToken: getters.getLoginToken,
+          user_id: getters.getUserId,
           content: payload,
         })
         .catch((response) => console.log(response));

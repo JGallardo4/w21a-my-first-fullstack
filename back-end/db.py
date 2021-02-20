@@ -66,7 +66,6 @@ def createPost(user, content):
 
 def updatePost(post_id, new_content):
     today = datetime.today().strftime("%Y/%m/%d %H:%M:%S")
-    console.log(today)
     put("UPDATE Posts SET Content = (?), Created_At = (?) WHERE Id = (?)", [new_content, today, post_id])
 
 def deletePost(post_id):

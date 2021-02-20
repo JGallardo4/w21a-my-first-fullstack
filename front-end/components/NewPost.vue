@@ -1,6 +1,6 @@
 <template>
   <section id="new-post">
-    <form action="" id="post__form" @submit.prevent="postPost()">
+    <form action="" id="post__form" @submit.prevent="createPost()">
       <fieldset id="post__fieldset">
         <legend>New Post</legend>
 
@@ -34,7 +34,7 @@
 export default {
   name: "new-post",
 
-  data: function() {
+  data: function () {
     return {
       input: "",
       characterLimitInclusive: 200,
@@ -52,8 +52,8 @@ export default {
   },
 
   methods: {
-    postPost() {
-      this.$store.dispatch("postPost", this.input);
+    createPost() {
+      this.$store.dispatch("createPost", this.input);
       this.input = "";
     },
   },
