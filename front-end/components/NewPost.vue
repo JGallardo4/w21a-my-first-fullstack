@@ -1,14 +1,14 @@
 <template>
-  <section id="new-tweet">
-    <form action="" id="tweet__form" @submit.prevent="postTweet()">
-      <fieldset id="tweet__fieldset">
-        <legend>New Tweet</legend>
+  <section id="new-post">
+    <form action="" id="post__form" @submit.prevent="postPost()">
+      <fieldset id="post__fieldset">
+        <legend>New Post</legend>
 
-        <p id="tweet-content">
+        <p id="post-content">
           <textarea
             rows="5"
             cols="40"
-            name="tweet-content"
+            name="post-content"
             v-model="input"
           ></textarea>
         </p>
@@ -21,9 +21,9 @@
           :disabled="isOverLimit"
           :class="{ disabled: isOverLimit }"
           type="submit"
-          id="submit-tweet"
+          id="submit-post"
         >
-          Post New Tweet
+          Post New Post
         </button>
       </fieldset>
     </form>
@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: "new-tweet",
+  name: "new-post",
 
   data: function() {
     return {
@@ -52,8 +52,8 @@ export default {
   },
 
   methods: {
-    postTweet() {
-      this.$store.dispatch("postTweet", this.input);
+    postPost() {
+      this.$store.dispatch("postPost", this.input);
       this.input = "";
     },
   },
@@ -93,18 +93,18 @@ export default {
 }
 @include formReset;
 
-#new-tweet {
+#new-post {
   display: grid;
   place-items: center;
   height: 80vh;
   background: url("https://source.unsplash.com/random");
   background-size: cover;
-  #tweet__form {
+  #post__form {
     padding: 0.5rem;
     border-radius: 10px;
     background-color: white;
 
-    #tweet__fieldset {
+    #post__fieldset {
       padding: 1rem;
       display: grid;
       grid-template-columns: 1fr;
@@ -132,7 +132,7 @@ export default {
         }
       }
 
-      #submit-tweet {
+      #submit-post {
         @include resetButton;
         border: 1px solid black;
         background-color: black;
@@ -160,10 +160,10 @@ export default {
 }
 
 @media screen and (max-width: 500px) {
-  #new-tweet {
-    #tweet__form {
+  #new-post {
+    #post__form {
       padding: 0;
-      #tweet__fieldset {
+      #post__fieldset {
         padding: 3px 0 3px 0;
         gap: 2px;
         textarea {

@@ -1,40 +1,35 @@
 <template>
-  <section id="my-tweets">
+  <section id="my-posts">
     <button @click="refresh()" id="refresh-button">
       Refresh
     </button>
 
-    <tweet-grid :tweets="tweets"></tweet-grid>
+    <post-grid :posts="posts"></post-grid>
   </section>
 </template>
 
 <script>
-import TweetGrid from "../components/TweetGrid.vue";
+import PostGrid from "../components/PostGrid.vue";
 
 export default {
-  name: "from-users-i-follow",
+  name: "my-posts",
 
   computed: {
-    tweets() {
-      return this.$store.getters.getAllTweets.filter((tweet) =>
-        this.$store.getters.getFollows.includes(tweet.userId)
+    posts() {
+      return this.$store.getters.getAllPosts.filter(
+        (post) => post.userId == this.$store.getters.getUserId
       );
     },
   },
 
-  mounted() {
-    this.$store.dispatch("refreshTweets");
-    this.$store.dispatch("refreshFollows");
-  },
-
   methods: {
     refresh() {
-      this.$store.dispatch("refreshTweets");
+      this.$store.dispatch("refreshPosts");
     },
   },
 
   components: {
-    TweetGrid,
+    PostGrid,
   },
 };
 </script>
@@ -50,7 +45,7 @@ export default {
   outline: inherit;
 }
 
-#my-tweets {
+#my-posts {
   grid-template-rows: auto 1fr;
   #refresh-button {
     justify-self: right;

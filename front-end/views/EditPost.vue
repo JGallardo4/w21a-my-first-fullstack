@@ -1,14 +1,14 @@
 <template>
-  <section id="new-tweet">
-    <form action="" id="tweet__form" @submit.prevent="updateTweet()">
-      <fieldset id="tweet__fieldset">
-        <legend>Edit Tweet</legend>
+  <section id="new-post">
+    <form action="" id="post__form" @submit.prevent="updatePost()">
+      <fieldset id="post__fieldset">
+        <legend>Edit Post</legend>
 
-        <p id="tweet-content">
+        <p id="post-content">
           <textarea
             rows="5"
             cols="40"
-            name="tweet-content"
+            name="post-content"
             v-model="input"
           ></textarea>
         </p>
@@ -34,7 +34,7 @@
             type="submit"
             id="submit-button"
           >
-            Edit Tweet
+            Edit Post
           </button>
         </section>
       </fieldset>
@@ -44,7 +44,7 @@
 
 <script>
 export default {
-  name: "edit-tweet",
+  name: "edit-post",
 
   data: function() {
     return {
@@ -53,13 +53,13 @@ export default {
   },
 
   created: function() {
-    this.input = this.$store.getters.getAllTweets.find(
-      (tweet) => tweet.tweetId == this.tweetId
+    this.input = this.$store.getters.getAllPosts.find(
+      (post) => post.tweetId == this.postId
     ).content;
   },
 
   props: {
-    tweetId: {
+    postId: {
       type: Number,
     },
   },
@@ -75,11 +75,11 @@ export default {
   },
 
   methods: {
-    updateTweet() {
+    updatePost() {
       this.$axios
-        .patch("/tweets", {
+        .patch("/posts", {
           loginToken: this.$store.getters.getLoginToken,
-          tweetId: this.tweetId,
+          postId: this.postId,
           content: this.input,
         })
         .then(() => this.$store.dispatch("redirect", "/"))
@@ -123,18 +123,18 @@ export default {
 
 @include formReset;
 
-#new-tweet {
+#new-post {
   display: grid;
   place-items: center;
   min-height: 100vh;
   background: url("https://source.unsplash.com/random");
   background-size: cover;
-  #tweet__form {
+  #post__form {
     padding: 0.5rem;
     border-radius: 10px;
     background-color: white;
 
-    #tweet__fieldset {
+    #post__fieldset {
       padding: 1rem;
       display: grid;
       grid-template-columns: 1fr;
@@ -196,10 +196,10 @@ export default {
 }
 
 @media screen and (max-width: 500px) {
-  #new-tweet {
-    #tweet__form {
+  #new-post {
+    #post__form {
       padding: 0;
-      #tweet__fieldset {
+      #post__fieldset {
         padding: 3px 0 3px 0;
         gap: 2px;
         textarea {

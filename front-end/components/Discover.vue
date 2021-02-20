@@ -1,35 +1,31 @@
 <template>
-  <section id="my-tweets">
-    <button @click="refresh()" id="refresh-button">
-      Refresh
-    </button>
+  <section id="discover">
+    <button @click="refresh()" id="refresh-button">Refresh</button>
 
-    <tweet-grid :tweets="tweets"></tweet-grid>
+    <post-grid :posts="posts"></post-grid>
   </section>
 </template>
 
 <script>
-import TweetGrid from "../components/TweetGrid.vue";
+import PostGrid from "../components/PostGrid.vue";
 
 export default {
-  name: "my-tweets",
+  name: "discover",
 
   computed: {
-    tweets() {
-      return this.$store.getters.getAllTweets.filter(
-        (tweet) => tweet.userId == this.$store.getters.getUserId
-      );
+    posts() {
+      return this.$store.getters.getAllPosts;
     },
   },
 
   methods: {
     refresh() {
-      this.$store.dispatch("refreshTweets");
+      this.$store.dispatch("refreshPosts");
     },
   },
 
   components: {
-    TweetGrid,
+    PostGrid,
   },
 };
 </script>
@@ -45,7 +41,7 @@ export default {
   outline: inherit;
 }
 
-#my-tweets {
+#discover {
   grid-template-rows: auto 1fr;
   #refresh-button {
     justify-self: right;

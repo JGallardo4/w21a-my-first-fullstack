@@ -54,7 +54,7 @@ const store = new Vuex.Store({
     userId: "",
     userName: "",
     loginToken: "",
-    allTweets: [],
+    allPosts: [],
   },
 
   getters: {
@@ -74,12 +74,8 @@ const store = new Vuex.Store({
       return state.loginToken;
     },
 
-    getAllTweets(state) {
-      return state.allTweets;
-    },
-
-    getFollows(state) {
-      return state.follows;
+    getAllPosts(state) {
+      return state.allPosts;
     },
   },
 
@@ -106,12 +102,8 @@ const store = new Vuex.Store({
       state.userName = "";
     },
 
-    SET_TWEETS(state, payload) {
-      state.allTweets = payload;
-    },
-
-    SET_FOLLOWS(state, payload) {
-      state.follows = payload;
+    SET_POSTS(state, payload) {
+      state.allPosts = payload;
     },
   },
 
@@ -183,21 +175,21 @@ const store = new Vuex.Store({
       }
     },
 
-    postTweet({ getters }, payload) {
+    postPost({ getters }, payload) {
       axios
-        .post("/tweets", {
+        .post("/posts", {
           loginToken: getters.getLoginToken,
           content: payload,
         })
         .catch((response) => console.log(response));
     },
 
-    refreshTweets({ commit, state }) {
+    refreshPosts({ commit, state }) {
       axios
-        .get("/tweets", { userId: state.userId })
+        .get("/posts", { userId: state.userId })
         .then((response) => {
           if (response.status === 200) {
-            commit("SET_TWEETS", response.data);
+            commit("SET_POSTS", response.data);
           }
         })
         .catch((error) => {
@@ -205,66 +197,8 @@ const store = new Vuex.Store({
         });
     },
 
-    refreshFollows({ state, commit }) {
-      axios
-        .request({
-          url: "/follows",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Api-Key": "1Rj5dMCW6aOfA75kbtKt6Gcatc5M9Chc6IGwJKe4YdhDD",
-          },
-          params: { userId: state.userId },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            commit(
-              "SET_FOLLOWS",
-              response.data.map((user) => user.userId)
-            );
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    deleteTweet(state, payload) {
-      axios.delete("/tweets", { data: payload });
-    },
-
-    followUser({ dispatch }, payload) {
-      axios
-        .request({
-          url: "/follows",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Api-Key": "1Rj5dMCW6aOfA75kbtKt6Gcatc5M9Chc6IGwJKe4YdhDD",
-          },
-          data: payload,
-        })
-        .then(dispatch("refreshFollows"))
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    unfollowUser({ dispatch }, payload) {
-      axios
-        .request({
-          url: "/follows",
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Api-Key": "1Rj5dMCW6aOfA75kbtKt6Gcatc5M9Chc6IGwJKe4YdhDD",
-          },
-          data: payload,
-        })
-        .then(dispatch("refreshFollows"))
-        .catch((error) => {
-          console.log(error);
-        });
+    deletePost(state, payload) {
+      axios.delete("/posts", { data: payload });
     },
 
     getUsers() {
@@ -272,46 +206,6 @@ const store = new Vuex.Store({
         .get("/users")
         .then((response) => response.data.map((user) => user.userId))
         .then(console.log)
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    likeTweet(state, payload) {
-      axios
-        .request({
-          url: "/tweet-likes",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Api-Key": "1Rj5dMCW6aOfA75kbtKt6Gcatc5M9Chc6IGwJKe4YdhDD",
-          },
-          data: payload,
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    refreshLikes() {
-      axios
-        .get("/tweet-likes", this.tweet.tweetId)
-        .then((response) => response.data.map((user) => user.userId))
-        .then((response) => (this.likedBy = response))
-        .catch(console.log);
-    },
-
-    unlikeTweet(state, payload) {
-      axios
-        .request({
-          url: "/tweet-likes",
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Api-Key": "1Rj5dMCW6aOfA75kbtKt6Gcatc5M9Chc6IGwJKe4YdhDD",
-          },
-          data: payload,
-        })
         .catch((error) => {
           console.log(error);
         });

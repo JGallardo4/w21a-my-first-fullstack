@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import TweeterMain from "../views/TweeterMain.vue";
+import RavenBlogsMain from "../views/RavenBlogsMain.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
-import EditTweet from "../views/EditTweet.vue";
+import EditPost from "../views/EditPost.vue";
 import Profile from "../views/Profile.vue";
 
 Vue.use(VueRouter);
@@ -12,7 +12,7 @@ const routes = [
   {
     path: "/",
     name: "Main",
-    component: TweeterMain,
+    component: RavenBlogsMain,
   },
 
   {
@@ -31,7 +31,7 @@ const routes = [
   {
     path: "/edit",
     name: "Edit",
-    component: EditTweet,
+    component: EditPost,
     props: true,
   },
 

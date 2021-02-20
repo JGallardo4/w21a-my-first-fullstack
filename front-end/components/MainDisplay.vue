@@ -1,5 +1,5 @@
 <template>
-  <section id="discover">
+  <section id="main-display">
     <section id="tabs-container">
       <div id="tabs">
         <button
@@ -18,39 +18,30 @@
 </template>
 
 <script>
-import MyTweets from "../components/MyTweets.vue";
-import FromUsersIFollow from "../components/FromUsersIFollow.vue";
-import MyLikedTweets from "../components/MyLikedTweets.vue";
+import MyPosts from "../components/MyPosts.vue";
+import Discover from "../components/Discover.vue";
+import NewPost from "../components/NewPost.vue";
 
 export default {
-  name: "my-stream",
+  components: {
+    MyPosts,
+    Discover,
+    NewPost,
+  },
 
-  data: function() {
+  name: "main-display",
+
+  data: function () {
     return {
-      currentTab: "From Users I Follow",
-      tabs: ["From Users I Follow", "My Liked Tweets", "My Tweets"],
+      currentTab: "My Stream",
+      tabs: ["My Posts", "Discover", "New Post"],
     };
   },
 
   computed: {
     currentTabComponent() {
-      return this.currentTab
-        .toLowerCase()
-        .split(" ")
-        .join("-");
+      return this.currentTab.toLowerCase().split(" ").join("-");
     },
-  },
-
-  methods: {
-    refresh() {
-      this.$store.dispatch("refreshTweets");
-    },
-  },
-
-  components: {
-    FromUsersIFollow,
-    MyTweets,
-    MyLikedTweets,
   },
 };
 </script>
@@ -66,10 +57,11 @@ export default {
   outline: inherit;
 }
 
-#discover {
+#main-display {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
+  padding: 2rem;
   gap: 1rem;
 }
 
@@ -77,16 +69,19 @@ export default {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
 
   #tabs {
     grid-row: 1;
     display: flex;
-    justify-content: right;
+    justify-content: left;
     border-bottom: solid 1px black;
     button {
       @include resetButton;
       padding: 1rem;
-      border-left: solid 1px black;
+      border-right: solid 1px black;
 
       &:hover {
         background-color: gainsboro;
@@ -102,6 +97,13 @@ export default {
     grid-row: 2;
     min-height: 50vh;
     display: grid;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #main-display {
+    padding: 2px;
+    gap: 2px;
   }
 }
 </style>

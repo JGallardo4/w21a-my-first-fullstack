@@ -1,5 +1,3 @@
-# Now that we can connect our python application to our DB, let's go ahead and create a strange application! This application will allow users to create blog posts from their terminal and see posts as well!
-
 import db
 from getpass import getpass
 
