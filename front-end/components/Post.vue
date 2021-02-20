@@ -15,7 +15,7 @@
         <router-link
           :to="{
             name: 'Edit',
-            params: { postId: this.post.User_Id },
+            params: { postId: this.post.Id },
           }"
         >
           <button type="submit" id="edit-button" title="Edit this Post">

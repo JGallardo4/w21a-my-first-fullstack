@@ -53,9 +53,10 @@ export default {
   },
 
   created: function() {
+    console.log(this.$store.getters.getAllPosts);
     this.input = this.$store.getters.getAllPosts.find(
-      (post) => post.tweetId == this.postId
-    ).content;
+      (post) => post.Id == this.postId
+    ).Content;
   },
 
   props: {
@@ -78,9 +79,8 @@ export default {
     updatePost() {
       this.$axios
         .patch("/posts", {
-          loginToken: this.$store.getters.getLoginToken,
-          postId: this.postId,
-          content: this.input,
+          post_id: this.postId,
+          new_content: this.input,
         })
         .then(() => this.$store.dispatch("redirect", "/"))
         .catch((response) => console.log(response));
