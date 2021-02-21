@@ -55,6 +55,7 @@ export default {
     createPost() {
       this.$store.dispatch("createPost", this.input);
       this.input = "";
+      this.$emit("new-post");
     },
   },
 };

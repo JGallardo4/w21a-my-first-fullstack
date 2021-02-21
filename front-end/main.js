@@ -188,12 +188,17 @@ const store = new Vuex.Store({
         .catch((response) => console.log(response));
     },
 
-    refreshPosts({ commit, state }) {
+    refreshPosts({ commit }) {
       axios
-        .get("/posts", { userId: state.userId })
+        .get("/posts", {})
         .then((response) => {
           if (response.status === 200) {
-            commit("SET_POSTS", response.data);
+            commit(
+              "SET_POSTS",
+              response.data.sort((a, b) => {
+                return new Date(b.Created_At) - new Date(a.Created_At);
+              })
+            );
           }
         })
         .catch((error) => {

@@ -12,7 +12,11 @@
         </button>
       </div>
 
-      <component :is="currentTabComponent" class="tab"></component>
+      <component
+        :is="currentTabComponent"
+        class="tab"
+        v-on:new-post="currentTab = 'My Posts'"
+      ></component>
     </section>
   </section>
 </template>
