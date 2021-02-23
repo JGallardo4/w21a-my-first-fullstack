@@ -71,8 +71,8 @@ def updatePost(post_id, new_content):
 def deletePost(post_id):
     put("DELETE FROM Posts WHERE Id = (?)", [post_id])
 
-def login(username, password):
-    return get("SELECT * FROM Users WHERE Username = ? and Password_String = ?", [username, password])
-
 def createUser(username, password):
     put("INSERT INTO Users (Username, Password_String) VALUES (?, ?)", [username, password])
+
+def login(username, password):
+    return get("SELECT * FROM Users WHERE Username = (?) and Password_String = (?)", [username, password])
