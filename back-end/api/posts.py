@@ -4,29 +4,25 @@ posts = Blueprint('posts', __name__)
 
 from ..db.db_posts import getPost, getPosts, createPost, updatePost, deletePost
 
-# import sys
-# sys.path.insert(0, "../db")
+@posts.route("/posts", methods=["GET"])
+def get_all_posts():
+    if not request.is_json:
+        response = getPosts()
+        return make_response(response, 200)
+        
+@posts.route("/posts/<post_id>", methods=["GET"])
+def get_one_post():
+    if request.is_json:        
+        _id = request.get_json()["post_id"]
 
-# try:
-#     from db import db_posts
-# except ImportError:
-#     print('No Import')
-
-@posts.route("/posts", methods=["GET", "POST", "PATCH", "DELETE"])
-def get_posts():    
-    if(request.method == "GET"):
-        if request.is_json:        
-            _id = request.get_json()["post_id"]
-
-            if(_id):
-                response = getPost(_id)
-                return make_response(response, 200)
-            else:
-                return make_response(jsonify({"message": "Request body must contain post_id data"}), 400)
-        else:
-            response = getPosts()
+        if(_id):
+            response = getPost(_id)
             return make_response(response, 200)
-    
+        else:
+            return make_response(jsonify({"message": "Request body must contain post_id data"}), 400)
+
+@posts.route("/posts", methods=["POST"])
+def create_post():    
     if request.is_json:
         if(request.method == "POST"):
             _data = request.get_json()
@@ -36,22 +32,30 @@ def get_posts():
             createPost(_user_id, _content)
 
             return make_response(jsonify({"message": "Success"}), 200)
+    else:
+        return make_response(jsonify({"message": "Request body must be JSON"}), 400)
 
-        elif(request.method == "PATCH"):
-            _data = request.get_json()
-            _post_id = _data["post_id"]
-            _new_content = _data["new_content"]
+@posts.route("/posts", methods=["PATCH"])
+def update_post():
+    if request.is_json:
+        _data = request.get_json()
+        _post_id = _data["post_id"]
+        _new_content = _data["new_content"]
 
-            updatePost(_post_id, _new_content)
+        updatePost(_post_id, _new_content)
 
-            return make_response(jsonify({"message": "Success"}), 200)
+        return make_response(jsonify({"message": "Success"}), 200)
+    else:
+        return make_response(jsonify({"message": "Request body must be JSON"}), 400)
 
-        elif(request.method == "DELETE"):
-            _data = request.get_json()
-            _post_id = _data["post_id"]
+@posts.route("/posts/<post_id>", methods=["DELETE"])
+def delete_post():
+    if request.is_json:        
+        _data = request.get_json()
+        _post_id = _data["post_id"]
 
-            deletePost(_post_id)
+        deletePost(_post_id)
 
-            return make_response(jsonify({"message": "Success"}), 200)
+        return make_response(jsonify({"message": "Success"}), 200)
     else:
         return make_response(jsonify({"message": "Request body must be JSON"}), 400)

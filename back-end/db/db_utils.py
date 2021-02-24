@@ -1,18 +1,18 @@
 from flask import jsonify
 from mariadb import connect
 
-from .db_creds import user, password, host, port, database
+from .db_creds import secrets
 
 connection = None
 cursor = None
 
 def db_connect():
     return connect(
-        user=user,
-        password=password,
-        host=host,
-        port=port,
-        database=database
+        user = secrets["user"],
+        password = secrets["password"],
+        host = secrets["host"],
+        port = secrets["port"],
+        database = secrets["database"]
     )
 
 def get(command, arguments=[]):
