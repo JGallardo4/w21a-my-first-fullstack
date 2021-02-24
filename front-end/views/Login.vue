@@ -7,9 +7,9 @@
           <fieldset id="login__fieldset">
             <legend>Login</legend>
 
-            <p id="email-input">
-              <label for="email">Email</label>
-              <input type="text" name="email" v-model="input.email" />
+            <p id="username-input">
+              <label for="username">Username</label>
+              <input type="text" name="username" v-model="input.username" />
             </p>
 
             <p id="password-input">
@@ -20,7 +20,7 @@
             <button @click.prevent="logIn()" id="submit-login">Log In</button>
 
             <p id="error-message" v-if="error">
-              There was an error with your email and/or password.
+              There was an error with your username and/or password.
             </p>
           </fieldset>
 
@@ -44,7 +44,7 @@ export default {
     return {
       input: {
         email: "",
-        password: "",
+        username: "",
       },
 
       error: false,
@@ -163,7 +163,7 @@ $fullhd-min: 1216px;
         padding: 1rem;
       }
 
-      #email-input {
+      #username-input {
         grid-row: 1;
       }
 

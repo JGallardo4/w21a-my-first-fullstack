@@ -7,16 +7,6 @@
           <fieldset id="register__fieldset">
             <legend>Register</legend>
 
-            <p id="email-input">
-              <label for="email">Email</label>
-              <input
-                type="text"
-                name="email"
-                v-model="input.email"
-                placeholder=""
-              />
-            </p>
-
             <p id="username-input">
               <label for="username">Username</label>
               <input
@@ -25,25 +15,6 @@
                 v-model="input.username"
                 placeholder=""
               />
-            </p>
-
-            <p id="bio-input">
-              <label for="bio">Bio</label>
-              <input
-                type="text"
-                name="bio"
-                v-model="input.bio"
-                placeholder=""
-              />
-            </p>
-
-            <p id="birthdate-input">
-              <label for="birthdate">Birthdate</label>
-              <datepicker
-                v-model="rawBirthdate"
-                name="birthdate"
-                class="birthday-input-picker"
-              ></datepicker>
             </p>
 
             <p id="password-input" v-if="!isEdit">
@@ -108,10 +79,7 @@ export default {
   data() {
     return {
       input: {
-        email: "",
         username: "",
-        birthdate: "",
-        bio: "",
         password: "",
       },
 
@@ -135,10 +103,7 @@ export default {
         })
         .then((response) => {
           if (response.status === 200) {
-            this.input.email = response.data[0].email;
             this.input.username = response.data[0].username;
-            this.input.bio = response.data[0].bio;
-            this.input.birthdate = response.data[0].birthdate;
           }
         })
         .catch((error) => {
@@ -147,42 +112,12 @@ export default {
     }
   },
 
-  computed: {
-    formattedBirthdate() {
-      var mydate =
-        this.rawBirthdate.toLocaleDateString("en-US", {
-          year: "numeric",
-        }) +
-        "-" +
-        this.rawBirthdate.toLocaleDateString("en-US", {
-          month: "2-digit",
-        }) +
-        "-" +
-        this.rawBirthdate.toLocaleDateString("en-US", {
-          day: "2-digit",
-        });
-      return mydate;
-    },
-  },
-
   watch: {
-    "input.email": function() {
-      this.error = false;
-    },
-
     "input.password": function() {
       if (this.input.password != "") {
         this.error = false;
       }
     },
-
-    rawBirthdate: function() {
-      this.input.birthdate = this.formattedBirthdate;
-    },
-  },
-
-  created() {
-    this.input.birthdate = this.formattedBirthdate;
   },
 
   methods: {
@@ -205,10 +140,7 @@ export default {
           },
           data: {
             loginToken: this.$store.getters.getLoginToken,
-            email: this.input.email,
             username: this.input.username,
-            birthdate: this.input.birthdate,
-            bio: this.input.bio,
           },
         })
         .then(this.$store.dispatch("logOut"))
@@ -308,16 +240,6 @@ $fullhd-min: 1216px;
         display: flex;
         justify-content: center;
         gap: 1rem;
-      }
-
-      #birthday-input-picker {
-        cursor: pointer !important;
-        width: 100% !important;
-        & > *,
-        .vdp-datepicker * {
-          cursor: pointer !important;
-          width: 100% !important;
-        }
       }
 
       #submit-register,
