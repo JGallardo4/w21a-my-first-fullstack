@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # Database credentials
-dbcreds.py
+db_creds.py
 
 # Node
 node_modules
