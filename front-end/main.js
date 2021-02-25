@@ -196,7 +196,7 @@ const store = new Vuex.Store({
             commit(
               "SET_POSTS",
               response.data.sort((a, b) => {
-                return new Date(b.Created_At) - new Date(a.Created_At);
+                return new Date(b.created_at) - new Date(a.created_at);
               })
             );
           }
@@ -214,7 +214,6 @@ const store = new Vuex.Store({
       axios
         .get("/users")
         .then((response) => response.data.map((user) => user.userId))
-        .then(console.log)
         .catch((error) => {
           console.log(error);
         });
