@@ -7,9 +7,9 @@ def db_get_all_posts():
 def db_get_one_post(_id):
     return get("SELECT * FROM Posts WHERE Id = (?)", [_id])  
 
-def db_create_post(user, content):
+def db_create_post(public_id, content):
     today = datetime.today().strftime("%Y/%m/%d %H:%M:%S")
-    put("INSERT INTO Posts (User_Id, Content, Created_At) VALUES (?, ?, ?)", [user, content, today])
+    put("INSERT INTO Posts (User_Id, Content, Created_At) VALUES (?, ?, ?)", [public_id, content, today])
 
 def db_update_post(post_id, new_content):
     today = datetime.today().strftime("%Y/%m/%d %H:%M:%S")

@@ -16,7 +16,7 @@ export default {
 
   computed: {
     posts() {
-      return this.$store.getters.getAllPosts.filter(
+      return this.$store.getters.allPosts.filter(
         (post) => post.User_Id == this.$store.getters.getUserId
       );
     },

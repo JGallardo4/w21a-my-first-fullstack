@@ -43,8 +43,8 @@ export default {
   data() {
     return {
       input: {
-        email: "",
         username: "",
+        password: "",
       },
 
       error: false,

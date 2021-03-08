@@ -35,10 +35,9 @@ library.add(
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
-axios.defaults.headers.common["X-Api-Key"] =
-  "1Rj5dMCW6aOfA75kbtKt6Gcatc5M9Chc6IGwJKe4YdhDD";
+axios.defaults.headers.common["token"] = this.$store.getters.authToken;
 
-axios.defaults.baseURL = "http://127.0.0.1:5000";
+axios.defaults.baseURL = "http://127.0.0.1:5000/api";
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
@@ -50,56 +49,18 @@ const vuexLocal = new VuexPersistence({
 
 const store = new Vuex.Store({
   state: {
-    isAuthenticated: false,
-    userId: 1,
-    userName: "",
-    loginToken: "",
+    authToken: "",
     allPosts: [],
   },
 
   getters: {
-    getIsAuthenticated(state) {
-      return state.isAuthenticated;
-    },
-
-    getUserName(state) {
-      return state.userName;
-    },
-
-    getUserId(state) {
-      return state.userId;
-    },
-
-    getLoginToken(state) {
-      return state.loginToken;
-    },
-
-    getAllPosts(state) {
-      return state.allPosts;
-    },
+    authToken: (state) => state.authToken,
+    allPosts: (state) => state.allPosts,
   },
 
   mutations: {
-    SET_AUTHENTICATED(state, payload) {
-      state.isAuthenticated = payload;
-    },
-
-    SET_USERID(state) {
-      state.userId = 1;
-    },
-
-    SET_LOGIN_TOKEN(state, payload) {
-      state.loginToken = payload;
-    },
-
-    SET_USERNAME(state, payload) {
-      state.userName = payload;
-    },
-
-    DELETE_USERDATA(state) {
-      state.isAuthenticated = false;
-      state.userId = "";
-      state.userName = "";
+    SET_AUTH_TOKEN(state, payload) {
+      state.authToken = payload;
     },
 
     SET_POSTS(state, payload) {
@@ -108,34 +69,30 @@ const store = new Vuex.Store({
   },
 
   actions: {
-    logIn({ commit }, payload) {
-      commit("SET_AUTHENTICATED", true);
-      commit("SET_USERID", 1);
-      commit("SET_USERNAME", "Juan");
-      console.log(payload);
-      // return new Promise((resolve, reject) => {
-      //   axios
-      //     .post("/login", payload)
-      //     .then((response) => {
-      //       if (response.status === 201) {
-      //         commit("SET_AUTHENTICATED", true);
-      //         commit("SET_USERID", response.data.userId);
-      //         commit("SET_USERNAME", response.data.username);
-      //         commit("SET_LOGIN_TOKEN", response.data.loginToken);
-      //         dispatch("redirect", "/");
-      //         resolve(response);
-      //       } else {
-      //         reject(response);
-      //       }
-      //     })
-      //     .catch((error) => {
-      //       reject(error);
-      //     });
-      // });
+    logIn({ commit, dispatch, resolve }, payload) {
+      return new Promise((reject) => {
+        axios
+          .post("/user/login", {
+            username: payload["username"],
+            password: payload["password"],
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              commit("SET_AUTH_TOKEN", response.data["token"]);
+              dispatch("redirect", "/");
+              resolve(response);
+            } else {
+              reject(response);
+            }
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
     },
 
     logOut({ commit, dispatch }) {
-      commit("DELETE_USERDATA");
+      commit("SET_AUTH_TOKEN", "");
       dispatch("redirect", "/login");
     },
 
@@ -149,16 +106,12 @@ const store = new Vuex.Store({
       }
     },
 
-    register({ commit, dispatch }, payload) {
+    register({ dispatch }, payload) {
       return new Promise((resolve, reject) => {
         axios
           .post("/users", payload)
           .then((response) => {
             if (response.status === 201) {
-              commit("SET_AUTHENTICATED", true);
-              commit("SET_USERID", response.data.userId);
-              commit("SET_USERNAME", response.data.username);
-              commit("SET_LOGIN_TOKEN", response.data.loginToken);
               dispatch("redirect", "/");
               resolve(response);
             } else {
@@ -184,6 +137,7 @@ const store = new Vuex.Store({
         .post("/posts", {
           user_id: getters.getUserId,
           content: payload,
+          headers: this.dispatch("getAuthHeader"),
         })
         .catch((response) => console.log(response));
     },
@@ -207,12 +161,15 @@ const store = new Vuex.Store({
     },
 
     deletePost(state, payload) {
-      axios.delete("/posts", { data: payload });
+      axios.delete("/posts", {
+        data: payload,
+        headers: this.dispatch("getAuthHeader"),
+      });
     },
 
     getUsers() {
       axios
-        .get("/users")
+        .get("/users", { headers: this.dispatch("getAuthHeader") })
         .then((response) => response.data.map((user) => user.userId))
         .catch((error) => {
           console.log(error);
@@ -233,6 +190,14 @@ const store = new Vuex.Store({
         });
       }
     },
+
+    // getAuthHeader(state) {
+    //   if (token != "") {
+    //     return JSON.stringify({ token: state.authToken });
+    //   } else {
+    //     return {};
+    //   }
+    // },
   },
 
   plugins: [vuexLocal.plugin],
